@@ -11,8 +11,16 @@
     ];
 
   # Bootloader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
+  boot.loader = {
+    #systemd-boot.enable = true; # Use systemd-boot instead of GRUB.
+    efi.canTouchEfiVariables = true;
+    grub = {
+      enable = true; # Enable GRUB bootloader.
+      devices = ["nodev"]; # Install GRUB on the first disk.
+      efiSupport = true; # Enable UEFI support.
+      useOSProber = true; # Enable if you want to detect other OSes.
+    };
+  };
 
   # Use latest kernel.
   boot.kernelPackages = pkgs.linuxPackages_latest;
@@ -103,20 +111,31 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
   #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-  #  wget
-   git
-   vscode
-   brave
-   kitty
+   wget
    zsh
    zsh-autosuggestions
    zsh-syntax-highlighting
+   zsh-powerlevel10k
+   wget
+   git
+   nodejs_22
+   pnpm
+   bun
+   jdk17
+   gcc
+   python313
+   android-studio
+   vscode
+   brave
+   thunderbird
+
   ];
 
    services.flatpak.enable=true;
    programs.zsh={
    enable=true;
    enableCompletion=true;
+   enableBashCompletion=true;
    autosuggestions.enable=true;
    syntaxHighlighting.enable=true;
 
@@ -157,3 +176,4 @@
   system.stateVersion = "25.05"; # Did you read the comment?
 
 }
+
