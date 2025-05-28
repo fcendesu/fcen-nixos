@@ -5,10 +5,10 @@
 { config, pkgs, ... }:
 
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-    ];
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+  ];
 
   # Bootloader.
   boot.loader = {
@@ -16,7 +16,7 @@
     efi.canTouchEfiVariables = true;
     grub = {
       enable = true; # Enable GRUB bootloader.
-      devices = ["nodev"]; # Install GRUB on the first disk.
+      devices = [ "nodev" ]; # Install GRUB on the first disk.
       efiSupport = true; # Enable UEFI support.
       useOSProber = true; # Enable if you want to detect other OSes.
     };
@@ -95,9 +95,12 @@
   users.users.fcen = {
     isNormalUser = true;
     description = "fcen";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+    ];
     packages = with pkgs; [
-    #  thunderbird
+      #  thunderbird
     ];
   };
 
@@ -110,42 +113,47 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-  #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-   wget
-   zsh
-   zsh-autosuggestions
-   zsh-syntax-highlighting
-   zsh-powerlevel10k
-   wget
-   git
-   nodejs_22
-   pnpm
-   bun
-   jdk17
-   gcc
-   python313
-   android-studio
-   vscode
-   brave
-   thunderbird
+    #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+    nixfmt-rfc-style # offical one, Formatter (optional: you can use alejandra instead) also there
+    wget
+    zsh
+    zsh-autosuggestions
+    zsh-syntax-highlighting
+    zsh-powerlevel10k
+    wget
+    git
+    nodejs_22
+    pnpm
+    bun
+    jdk17
+    gcc
+    python313
+    android-studio
+    vscode
+    brave
+    thunderbird
 
   ];
 
-   services.flatpak.enable=true;
-   programs.zsh={
-   enable=true;
-   enableCompletion=true;
-   enableBashCompletion=true;
-   autosuggestions.enable=true;
-   syntaxHighlighting.enable=true;
+  services.flatpak.enable = true;
+  
+  programs.zsh = {
+    enable = true;
+    enableCompletion = true;
+    enableBashCompletion = true;
+    autosuggestions.enable = true;
+    syntaxHighlighting.enable = true;
 
-      ohMyZsh={
-      enable=true;
-      theme="powerlevel10k/powerlevel10k";
-      custom="$HOME/.oh-my-zsh/custom/";
-      plugins=["git"];
+    ohMyZsh = {
+      enable = true;
+      theme = "powerlevel10k/powerlevel10k";
+      custom = "$HOME/.oh-my-zsh/custom/";
+      plugins = [ "git" ];
     };
-   promptInit="";
+    interactiveShellInit = ''
+      source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme
+    '';
+    promptInit = "";
   };
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -176,4 +184,3 @@
   system.stateVersion = "25.05"; # Did you read the comment?
 
 }
-
