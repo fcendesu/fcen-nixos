@@ -2,7 +2,12 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{
+  config,
+  pkgs,
+  inputs,
+  ...
+}:
 
 {
   imports = [
@@ -104,11 +109,37 @@
     ];
   };
 
+  # for global user
+  users.defaultUserShell = pkgs.zsh;
+  # For a specific user
+  users.users.fcen.shell = pkgs.zsh;
+
   # Install firefox.
   #programs.firefox.enable = true;
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
+
+  hardware.opengl = {
+    enable = true; # Enable OpenGL support.
+    driSupport = true; # Enable DRI support.
+    driSupport32Bit = true; # Enable 32-bit DRI support.
+  }; # Enable OpenGL support.
+
+  services.xserver.videoDrivers = [ "nvidia" ]; # Use the NVIDIA driver for graphics.
+  hardware.nvidia.modesetting.enable = true; # Enable modesetting for NVIDIA.
+
+  hardware.nvidia.prime = {
+    # Enable NVIDIA PRIME support for hybrid graphics systems.
+    offload = {
+      enable = true; # Enable offloading support.
+      enableOffloadCmd = true; # Lets you use `nvidia-offload %command%` in steam
+    };
+
+    intelBusId = "PCI:00:02:0"; # Set the Intel GPU bus ID.
+    # amdgpuBusId = "PCI:0:0:0";
+    nvidiaBusId = "PCI:01:00:0"; # Set the NVIDIA GPU bus ID.
+  };
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -119,8 +150,8 @@
     zsh
     zsh-autosuggestions
     zsh-syntax-highlighting
-    zsh-powerlevel10k
-    wget
+    fastfetch
+    htop
     git
     nodejs_22
     pnpm
@@ -132,22 +163,24 @@
     vscode
     brave
     thunderbird
+    stremio
+    discord
+    spotify
 
   ];
 
   services.flatpak.enable = true;
-  
+
   programs.zsh = {
     enable = true;
     enableCompletion = true;
     enableBashCompletion = true;
     autosuggestions.enable = true;
     syntaxHighlighting.enable = true;
+    histSize = 1000; # Increase history size
 
     ohMyZsh = {
       enable = true;
-      theme = "powerlevel10k/powerlevel10k";
-      custom = "$HOME/.oh-my-zsh/custom/";
       plugins = [ "git" ];
     };
     interactiveShellInit = ''
