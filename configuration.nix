@@ -129,7 +129,7 @@
 
   services.xserver.videoDrivers = [ "nvidia" ]; # Use the NVIDIA driver for graphics.
   hardware.nvidia.modesetting.enable = true; # Enable modesetting for NVIDIA.
-
+  hardware.nvidia.open = false;
   hardware.nvidia.prime = {
     # Enable NVIDIA PRIME support for hybrid graphics systems.
     offload = {
