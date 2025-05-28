@@ -121,8 +121,9 @@
   nixpkgs.config.allowUnfree = true;
 
   hardware.graphics.enable = true; # Enable graphics hardware support.
+  hardware.graphics.enable32Bit = true;
   hardware.opengl = {
-    driSupport = true; # Enable DRI support.
+    enable = true; #Enable OpenGL support.
     driSupport32Bit = true; # Enable 32-bit DRI support.
   }; # Enable OpenGL support.
 
