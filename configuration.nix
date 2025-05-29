@@ -114,11 +114,6 @@
     #yelp
     #gnome-software
   ];
-  environment.systemPackages = with pkgs.gnomeExtensions; [
-    caffeine
-    clipboard-indicator
-    dash-to-dock
-  ];
 
   # Configure keymap in X11
   services.xserver.xkb = {
@@ -195,32 +190,40 @@
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  environment.systemPackages = with pkgs; [
-    #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-    nixfmt-rfc-style # offical one, Formatter (optional: you can use alejandra instead) also there
-    wget
-    zsh
-    zsh-autosuggestions
-    zsh-syntax-highlighting
-    fastfetch
-    htop
-    git
-    nodejs_22
-    pnpm
-    bun
-    jdk17
-    gcc
-    python313
-    android-studio
-    vscode
-    brave
-    thunderbird
-    stremio
-    discord
-    spotify
-    vlc
+  environment.systemPackages =
+    with pkgs;
+    [
+      #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+      nixfmt-rfc-style # offical one, Formatter (optional: you can use alejandra instead) also there
+      wget
+      zsh
+      zsh-autosuggestions
+      zsh-syntax-highlighting
+      fastfetch
+      htop
+      git
+      nodejs_22
+      pnpm
+      bun
+      jdk17
+      gcc
+      python313
+      android-studio
+      vscode
+      brave
+      thunderbird
+      stremio
+      discord
+      spotify
+      vlc
 
-  ];
+    ]
+    ++ (with pkgs.gnomeExtensions; [
+      # GNOME Extensions
+      caffeine
+      clipboard-indicator
+      dash-to-dock
+    ]);
 
   services.flatpak.enable = true;
 
