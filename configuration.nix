@@ -176,11 +176,7 @@
   nixpkgs.config.allowUnfree = true;
 
   hardware.graphics.enable = true; # Enable graphics hardware support.
-  hardware.graphics.enable32Bit = true;
-  hardware.opengl = {
-    enable = true; #Enable OpenGL support.
-    driSupport32Bit = true; # Enable 32-bit DRI support.
-  }; # Enable OpenGL support.
+  hardware.graphics.enable32Bit = true; # Enable 32-bit graphics support (if needed).
 
   services.xserver.videoDrivers = [ "nvidia" ]; # Use the NVIDIA driver for graphics.
   hardware.nvidia.modesetting.enable = true; # Enable modesetting for NVIDIA.
