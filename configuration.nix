@@ -153,11 +153,15 @@
     extraGroups = [
       "networkmanager"
       "wheel"
+      "docker" # Add user to the "docker" group to run docker without sudo
     ];
     packages = with pkgs; [
       #  thunderbird
     ];
   };
+  
+  # Enable Docker Support
+  virtualisation.docker.enable= true; 
 
   # for global user
   users.defaultUserShell = pkgs.zsh;
@@ -207,6 +211,7 @@
       bun
       jdk17
       gcc
+      docker_28
       python313
       android-studio
       vscode
