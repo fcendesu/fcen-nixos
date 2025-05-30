@@ -99,7 +99,7 @@
     gnome-clocks
     # gnome-console
     gnome-contacts
-    gnome-font-viewer
+    # gnome-font-viewer
     # gnome-logs
     gnome-maps
     gnome-music
@@ -159,9 +159,9 @@
       #  thunderbird
     ];
   };
-  
+
   # Enable Docker Support
-  virtualisation.docker.enable= true; 
+  virtualisation.docker.enable = true;
 
   # for global user
   users.defaultUserShell = pkgs.zsh;
@@ -212,6 +212,8 @@
       jdk17
       gcc
       docker_28
+      php
+      php84Packages.composer
       python313
       android-studio
       vscode
@@ -231,13 +233,6 @@
     ]);
 
   services.flatpak.enable = true;
-  systemd.services.flatpak-repo = {
-    wantedBy = [ "multi-user.target" ];
-    path = [ pkgs.flatpak ];
-    script = ''
-      flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-    '';
-  };
 
   programs.zsh = {
     enable = true;
@@ -246,6 +241,10 @@
     autosuggestions.enable = true;
     syntaxHighlighting.enable = true;
     histSize = 1000; # Increase history size
+    histFile = "$HOME/.zsh_history";
+    setOptions = [
+      "HIST_IGNORE_ALL_DUPS"
+    ];
 
     ohMyZsh = {
       enable = true;
@@ -258,19 +257,19 @@
   };
 
   fonts.packages = with pkgs; [
-  noto-fonts
-  noto-fonts-cjk-sans
-  noto-fonts-emoji
-  liberation_ttf
-  fira-code
-  fira-code-symbols
-  nerd-fonts.fira-code
-  jetbrains-mono
-  nerd-fonts.jetbrains-mono
-  nerd-fonts.droid-sans-mono
-  dina-font
-  proggyfonts
-];
+    noto-fonts
+    noto-fonts-cjk-sans
+    noto-fonts-emoji
+    liberation_ttf
+    fira-code
+    fira-code-symbols
+    nerd-fonts.fira-code
+    jetbrains-mono
+    nerd-fonts.jetbrains-mono
+    nerd-fonts.droid-sans-mono
+    dina-font
+    proggyfonts
+  ];
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
