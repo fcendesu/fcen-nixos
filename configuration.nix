@@ -64,6 +64,10 @@
   # Enable the GNOME Desktop Environment.
   services.xserver.displayManager.gdm.enable = true;
   services.xserver.desktopManager.gnome.enable = true;
+  services.xserver.desktopManager.gnome.extraGSettingsOverrides = ''
+    [org.gnome.mutter]
+    experimental-features=['scale-monitor-framebuffer']
+  ''; # Enable experimental features in Mutter (GNOME's window manager). allows fractional scaling.
 
   #Excluding GNOME Applications
   environment.gnome.excludePackages = with pkgs; [
@@ -254,6 +258,12 @@
       source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme
     '';
     promptInit = "";
+  };
+
+  programs.appimage= {
+    enable = true; # Enable AppImage support.
+    binfmt = true; # Enable binfmt support for AppImages.
+    package = pkgs.appimage-run; # Use the appimage-run package for running AppImages.
   };
 
   fonts.packages = with pkgs; [
