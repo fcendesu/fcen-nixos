@@ -183,7 +183,7 @@
 
   services.xserver.videoDrivers = [ "nvidia" ]; # Use the NVIDIA driver for graphics.
   hardware.nvidia.modesetting.enable = true; # Enable modesetting for NVIDIA.
-  hardware.nvidia.open = false;
+  hardware.nvidia.open = false; # Use the proprietary NVIDIA driver (set to true for open-source driver).
   hardware.nvidia.prime = {
     # Enable NVIDIA PRIME support for hybrid graphics systems.
     offload = {
@@ -208,11 +208,12 @@
       zsh-autosuggestions
       zsh-syntax-highlighting
       fastfetch
-      htop
+      btop
       git
       nodejs_22
       pnpm
       bun
+      gearlever
       jdk17
       gcc
       docker_28
@@ -234,6 +235,7 @@
       caffeine
       clipboard-indicator
       dash-to-dock
+      just-perfection
     ]);
 
   services.flatpak.enable = true;
@@ -260,7 +262,7 @@
     promptInit = "";
   };
 
-  programs.appimage= {
+  programs.appimage = {
     enable = true; # Enable AppImage support.
     binfmt = true; # Enable binfmt support for AppImages.
     package = pkgs.appimage-run; # Use the appimage-run package for running AppImages.
@@ -280,6 +282,15 @@
     dina-font
     proggyfonts
   ];
+
+  environment.variables = {
+    # Tells Electron apps to respect system DPI
+    ELECTRON_OZONE_PLATFORM_HINT = "auto";
+    QT_AUTO_SCREEN_SCALE_FACTOR = "1"; # Also helps for Qt apps
+    QT_SCALE_FACTOR = "1.25"; # Adjust this if needed for Qt apps
+    # Brave-specific Wayland flag
+    NIXOS_OZONE_WL = "1";
+  };
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
